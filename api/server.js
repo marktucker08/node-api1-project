@@ -15,5 +15,23 @@ server.get('/api/users', async (req, res) => {
     }
 });
 
+server.get('/api/users/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        res.status(200).json(user);
+    } catch(err) {
+        res.status(500).json('Horrible error!')
+    }
+});
+
+server.post('/api/users', async (req, res) => {
+    try {
+        const user = await User.insert(req.body.name, req.body.bio)
+        res.status(201).json(user)
+    } catch(err) {
+        res.status(500).json({ message: 'horrible stuff happened' })
+    }
+})
+
 
 module.exports = server; // EXPORT YOUR SERVER instead of {}
